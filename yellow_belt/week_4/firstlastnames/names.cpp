@@ -9,39 +9,63 @@
 using namespace std;
 
 
+string FindNameByYear(const map<int, string>& names, int year) {
+  string name;  // изначально имя неизвестно
+  
+  auto iter_after = names.upper_bound(year);
+
+  if (iter_after != names.begin())
+  {
+    name = (--iter_after)->second;
+  }
+  
+  return name;
+}
+
+
+
+
+
 
 class Person {
 public:
   void ChangeFirstName(int year, const string& first_name) {
-    // добавить факт изменения имени на first_name в год year
+    first_names[year] = first_name;
   }
   void ChangeLastName(int year, const string& last_name) {
-    // добавить факт изменения фамилии на last_name в год year
+    last_names[year] = last_name;
   }
   string GetFullName(int year) {
-    // получить имя и фамилию по состоянию на конец года year
-    // с помощью двоичного поиска
+    
+    const string first_name = FindNameByYear(first_names, year);
+    const string last_name = FindNameByYear(last_names, year);
+    
+    // если и имя, и фамилия неизвестны
+    if (first_name.empty() && last_name.empty()) {
+      return "Incognito";
+    
+    // если неизвестно только имя
+    } else if (first_name.empty()) {
+      return last_name + " with unknown first name";
+      
+    // если неизвестна только фамилия
+    } else if (last_name.empty()) {
+      return first_name + " with unknown last name";
+      
+    // если известны и имя, и фамилия
+    } else {
+      return first_name + " " + last_name;
+    }
+
+
+
   }
+
+
 private:
-  map <int, pair<string, string>> pers_data;
+  map <int, string> first_names;
+  map <int, string> last_names;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int main() {
