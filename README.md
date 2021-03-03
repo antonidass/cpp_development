@@ -1,2 +1,2 @@
-# cpp_development
-C++ development basics: yellow belt
+# Курс Разработка на С++
+Желтый пояс
